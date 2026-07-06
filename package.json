@@ -1,0 +1,12 @@
+{
+  "name": "babyclean-store",
+  "version": "1.0.0",
+  "description": "Tienda de artículos para bebés sanitizados con Hyla",
+  "main": "index.html",
+  "scripts": {
+    "start": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}

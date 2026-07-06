@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BabyClean Store - Compra Protegida y Sanitizada</title>
+    
+    <!-- Importamos la fuente Sniglet desde Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- DOCUMENTACIÓN DE ESTILOS (CSS) --- */
+        :root {
+            --turquesa-principal: #00a896;
+            --turquesa-claro: #e0f4f1;
+            --turquesa-oscuro: #028090;
+            --gris-oscuro: #333333;
+            --blanco: #ffffff;
+            --alerta-amarillo: #f4d35e;
+            --alerta-verde: #2a9d8f;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Sniglet', system-ui, sans-serif;
+            background-color: #fafafa;
+            color: var(--gris-oscuro);
+        }
+
+        header {
+            background-color: var(--turquesa-principal);
+            color: var(--blanco);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .hero {
+            background-color: var(--turquesa-claro);
+            font-size:  3rem;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            color: var(--turquesa-oscuro);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        /* Contenedor Principal dispuesto en columna vertical */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column; /* Coloca el carrusel arriba y el simulador abajo */
+            gap: 3rem;
+            align-items: center;
+        }
+
+        /* --- NUEVO: ESTILOS DEL CARRUSEL EN CONSTANTE MOVIMIENTO --- */
+        .carousel-container {
+            width: 100%;
+            overflow: hidden; /* Oculta los productos que se salen de la pantalla */
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            width: max-content; /* Permite que el contenedor se extienda horizontalmente todo lo necesario */
+            animation: scroll-infinite 20s linear infinite; /* Animación constante e infinita */
+        }
+
+        /* Pausa el movimiento cuando el usuario pasa el mouse por encima */
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Definición de la animación de desplazamiento */
+        @keyframes scroll-infinite {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                /* Se desplaza exactamente la mitad del ancho total (ya que el contenido está duplicado) */
+                transform: translateX(-50%); 
+            }
+        }
+
+        /* Tarjeta de Producto */
+        .product-card {
+            background: var(--blanco);
+            border: 3px solid var(--turquesa-principal);
+            border-radius: 15px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            flex-shrink: 0; /* Evita que las tarjetas se deformen o achiquen dentro de flexbox */
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .badge {
+            box-sizing: border-box;
+            display: inline-block;
+            background-color: var(--turquesa-oscuro);
+            color: var(--blanco);
+            padding: 0.4rem 0.2rem;
+            border-radius: 20px;
+            font-family: 'Sniglet', sans-serif; 
+            font-size: 1rem;                     
+            width: 125px;
+            text-align: center;
+        }
+
+        .badge.hyla {
+            background-color: #02c39a;
+        }
+
+        /* MODIFICACIÓN: Ajustado para verse centrado e independiente en la parte inferior */
+        .escrow-simulator {
+            background: var(--blanco);
+            border: 2px dashed var(--turquesa-oscuro);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 450px; /* Un poco más ancho para albergar cómodamente los estados en la base */
+            box-sizing: border-box;
+        }
+
+        .status-box {
+            background-color: var(--alerta-amarillo);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action {
+            background-color: var(--turquesa-principal);
+            color: var(--blanco);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            font-family: 'Sniglet', sans-serif;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: var(--turquesa-oscuro);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>BabyClean 🧸</h2>
+        <nav>Inicio | Categorías | ¿Cómo Funciona? </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Artículos de bebé sanitizados con tecnología Hyla</h1>
+        <p>Garantizamos una limpieza clínica profunda. Tu dinero está seguro y solo se libera cuando confirmas que todo está perfecto.</p>
+    </section>
+
+    <main class="container">
+        
+        <!-- CARRUSEL DE PRODUCTOS -->
+        <div class="carousel-container">
+            <div class="carousel-track">
+                
+                <!-- Producto 1 (Original) -->
+                <div class="product-card">
+                    <div class="product-info">
+                        <div class="badge-container">
+                            <span class="badge hyla">✨Sanitizado</span>
+                            <span class="badge">🔒Compra protegida</span>
+                        </div>
+                        <h3>Coche de Paseo Premium</h3>
+                        <p>Pasó por un proceso estricto de desinfección profunda, libre de alérgenos y bacterias.</p>
+                        <p style="font-weight: bold; color: var(--turquesa-oscuro); font-size: 1.3rem;">$45.000</p>
+                    </div>
+                </div>
+
+                <!-- Producto 2 (Original) -->
+                <div class="product-card">
+                    <div class="product-info">
+                        <div class="badge-container">
+                            <span class="badge hyla">✨Sanitizado</span>
+                            <span class="badge">🔒Compra protegida</span>
+                        </div>
+                        <h3>Cuna Mecedora Ergonómica</h3>
+                        <p>Sanitización completa garantizada para el descanso seguro de tu bebé.</p>
+                        <p style="font-weight: bold; color: var(--turquesa-oscuro); font-size: 1.3rem;">$65.000</p>
+                    </div>
+                </div>
+
+                <!-- REPETICIÓN DE PRODUCTOS (Requisito para que el bucle se vea infinito y fluido) -->
+                <!-- Producto 1 (Duplicado) -->
+                <div class="product-card">
+                    <div class="product-info">
+                        <div class="badge-container">
+                            <span class="badge hyla">✨Sanitizado</span>
+                            <span class="badge">🔒Compra protegida</span>
+                        </div>
+                        <h3>Coche de paseo premium</h3>
+                        <p>Pasó por un proceso estricto de desinfección profunda, libre de alérgenos, virus y bacterias.</p>
+                        <p style="font-weight: bold; color: var(--turquesa-oscuro); font-size: 1.3rem;">$45.000</p>
+                    </div>
+                </div>
+
+                <!-- Producto 2 (Duplicado) -->
+                <div class="product-card">
+                    <div class="product-info">
+                        <div class="badge-container">
+                            <span class="badge hyla">✨ Sanitizado</span>
+                            <span class="badge">🔒Compra protegida</span>
+                        </div>
+                        <h3>Cuna Mecedora Ergonómica</h3>
+                        <p>Sanitización completa garantizada para el descanso seguro de tu bebé.</p>
+                        <p style="font-weight: bold; color: var(--turquesa-oscuro); font-size: 1.3rem;">$65.000</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SIMULADOR DE ESTADO DE COMPRA (Ahora en la parte inferior) -->
+        <div class="escrow-simulator">
+            <h3>Seguimiento estado de mi compra</h3>
+            <p>Monitorea el estado del dinero en este flujo interactivo:</p>
+            
+            <div id="statusWallet" class="status-box">
+                💰 Número de seguimiento
+            </div>
+
+            <button id="btnRelease" class="btn-action" onclick="liberarPago()">
+                👍 ¡El producto llegó OK! Liberar pago
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        function liberarPago() {
+            const statusBox = document.getElementById('statusWallet');
+            const boton = document.getElementById('btnRelease');
+
+            statusBox.style.backgroundColor = '#2a9d8f'; 
+            statusBox.style.color = '#ffffff';
+            statusBox.innerHTML = '✅ ¡Dinero LIBERADO al vendedor con éxito!';
+
+            boton.disabled = true;
+            boton.style.backgroundColor = '#cccccc';
+            boton.style.cursor = 'not-allowed';
+            boton.innerText = 'Transacción Completada';
+        }
+    </script>
+</body>
+</html>
